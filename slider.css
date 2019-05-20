@@ -1,0 +1,88 @@
+[data-slider] {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+[data-slider] .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    animation-name: slide;
+    transition-timing-function: ease-in;
+}
+
+[data-slider] .arrows .prev,
+[data-slider] .arrows .next {
+    width: 32px;
+    height: 32px;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0i0KHQu9C+0LlfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAzMiAzMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiM3MDQ0M0E7fQ0KPC9zdHlsZT4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xNiwwQzcuMiwwLDAsNy4yLDAsMTZzNy4yLDE2LDE2LDE2czE2LTcuMiwxNi0xNlMyNC44LDAsMTYsMHogTTE0LjksMjQuNWMtMS0xLTEuOS0yLTIuOS0yLjkNCgljMS43LTEuNywzLjQtMy40LDUtNS4xYy0xLjctMS43LTMuMy0zLjQtNS01LjFjMS0xLDItMS45LDIuOS0yLjljMi42LDIuOCw1LjYsNS4zLDguMyw4QzIwLjYsMTkuMiwxNy42LDIxLjcsMTQuOSwyNC41eiIvPg0KPC9zdmc+DQo=');
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    opacity: .5;
+    transition: opacity .25s ease;
+}
+
+[data-slider] .arrows .prev:hover,
+[data-slider] .arrows .next:hover {
+    opacity: 1;
+}
+
+[data-slider] .arrows .prev {
+    transform: rotate(180deg);
+    left: 16px;
+}
+
+[data-slider] .arrows .next {
+    right: 16px;
+}
+
+[data-slider] .pager {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 12px;
+}
+
+[data-slider] .pager .page {
+    display: inline-block;
+    font-size: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #7a3618;
+    margin: 4px 8px;
+    cursor: pointer;
+    opacity: .5;
+}
+
+[data-slider] .pager .page:hover {
+    opacity: 1;
+}
+
+[data-slider] .pager .page.active {
+    opacity: 1;
+}
+[data-slider] .pager .page.active:before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px #7a3618 solid;
+    margin-top: -4px;
+    margin-left: -8px;
+}
+/**
+Animations
+ */
+@keyframes slide {
+    0%   {left: 100%}
+    100% {left: 0}
+}
