@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link type="text/css" rel="stylesheet" href="index.css"  media="screen,projection"/>
+        <style>
+            .slide-content {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                font: 160px/400px Tahoma, sans-serif;
+                color: #777;
+                text-align: center;
+            }
+            .slide-content-1 {
+                background: #fcc;
+            }
+            .slide-content-2 {
+                background: #ffc;
+            }
+            .slide-content-3 {
+                background: #ccf;
+            }
+            .slide-content-4 {
+                background: #cff;
+            }
+            .slide-content-5 {
+                background: #cfc;
+            }
+        </style>
+
+    </head>
+    <body>
+
+        <div style="width:600px; height: 200px; margin: 40px auto;">
+
+            <div data-slider>
+                <img src="http://placehold.it/600x200" />
+                <img src="http://placehold.it/600x200" />
+                <img src="http://placehold.it/600x200" />
+            </div>
+
+        </div>    
+
+        <div style="width:400px; height: 400px; margin: 40px auto;">
+                
+            <div data-slider="{'sliderInterval': 5000, 'sliderSpeed': 1000, 'loop': false}">
+                <div class="slide-content slide-content-1">1</div>
+                <div class="slide-content slide-content-2">2</div>
+                <div class="slide-content slide-content-3">3</div>
+                <div class="slide-content slide-content-4">4</div>
+                <div class="slide-content slide-content-5">5</div>
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="index.js"></script>
+    </body>
+</html>
