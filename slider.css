@@ -52,6 +52,7 @@
 
 [data-slider] .pager .page {
     display: inline-block;
+    position: relative;
     font-size: 0;
     width: 8px;
     height: 8px;
@@ -76,8 +77,8 @@
     position: absolute;
     border-radius: 50%;
     border: 1px #7a3618 solid;
-    margin-top: -4px;
-    margin-left: -8px;
+    top: -4px;
+    left: -4px;
 }
 /**
 Animations
