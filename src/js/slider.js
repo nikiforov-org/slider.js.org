@@ -181,7 +181,7 @@
                 } else {
                     activeSlideNumber++;
                 }
-                makeSlide(sliderNumber, activeSlideNumber);
+                makeSlide(sliderNumber, activeSlideNumber, 'next');
                 break;
             case 'prev':
                 if (activeSlideNumber === 0) {
@@ -189,10 +189,14 @@
                 } else {
                     activeSlideNumber--;
                 }
-                makeSlide(sliderNumber, activeSlideNumber);
+                makeSlide(sliderNumber, activeSlideNumber, 'prev');
                 break;
             default:
-                makeSlide(sliderNumber, page);
+                if (page < activeSlideNumber) {
+                    makeSlide(sliderNumber, page, 'prev');
+                } else {
+                    makeSlide(sliderNumber, page, 'next');
+                }
         }
 
         /**
@@ -200,10 +204,11 @@
          * @param {number} sliderNumber
          * @param {number} page
          */
-        function makeSlide(sliderNumber, page) {
+        function makeSlide(sliderNumber, page, direction) {
             var
                 activeSlide = document.getElementById('slide-' + sliderNumber + '-' + page);
 
+            activeSlide.style.animationName     = direction;
             activeSlide.style.animationDuration = sliderSpeed/1000 + 's';
 
             slides.appendChild(activeSlide);
