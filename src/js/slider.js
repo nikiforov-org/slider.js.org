@@ -181,7 +181,7 @@
                 } else {
                     activeSlideNumber++;
                 }
-                makeSlide(sliderNumber, activeSlideNumber, 'next');
+                makeSlide(sliderNumber, activeSlideNumber, page);
                 break;
             case 'prev':
                 if (activeSlideNumber === 0) {
@@ -189,7 +189,7 @@
                 } else {
                     activeSlideNumber--;
                 }
-                makeSlide(sliderNumber, activeSlideNumber, 'prev');
+                makeSlide(sliderNumber, activeSlideNumber, page);
                 break;
             default:
                 if (page < activeSlideNumber) {
