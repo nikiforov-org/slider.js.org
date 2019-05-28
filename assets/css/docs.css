@@ -47,6 +47,7 @@ section > .title {
 section > .content {
     font-size: 14px;
     padding: 0 40px;
+    overflow-y: scroll;
 } 
 
 .button {
