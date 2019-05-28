@@ -23,6 +23,20 @@ main {
     text-align: center;
 }
 
+h1 {
+    font-weight: 100;
+    margin: 32px 0 48px;
+    text-align: center;
+}
+h1::first-letter {
+    color: transparent;
+    background-image: url(../favicon/favicon.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    padding: 0 8px;
+}
+
 section {
     border: 1px solid #4caf50;
     border-radius: 4px;
