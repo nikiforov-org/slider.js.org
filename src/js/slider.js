@@ -1,6 +1,6 @@
 (function() {
     // Default settings
-    var 
+    var
         settings = {
             pager           : true,
             arrows          : true,
@@ -9,13 +9,13 @@
             loop            : true,
             pauseOnHover    : true,
             sliderInterval  : 5000
-        }
+        };
 
     // Each slider has attribute 'data-slider'
-    var 
+    var
         sliders = document.querySelectorAll('[data-slider]');
 
-    // Find all sliders and set them id   
+    // Find all sliders and set them id
     for (var i = sliders.length; i--;) {
         // Add id to each slider
         sliders[i].id = 'slider-' + i;
@@ -25,7 +25,7 @@
 
     /**
      * Init each slider with settings
-     * @param {object} slider 
+     * @param {object} slider
      */
     function initSettings(slider) {
         // Add default settings
@@ -57,13 +57,13 @@
         }
 
         if (slider.settings.loop) {
-            startLooping(slider)
+            startLooping(slider);
             if (slider.settings.pauseOnHover) {
-                slider.addEventListener('mouseover', function() { 
+                slider.addEventListener('mouseover', function() {
                     pauseLooping(slider)
                 });
-                slider.addEventListener('mouseout', function() { 
-                    startLooping(slider) 
+                slider.addEventListener('mouseout', function() {
+                    startLooping(slider)
                 });
             }
         }
@@ -71,7 +71,7 @@
 
     /**
      * Build main slider nodes
-     * @param {object} slider 
+     * @param {object} slider
      */
     function buildNodes(slider) {
         var
@@ -96,7 +96,7 @@
 
     /**
      * Build arrows
-     * @param {object} slider 
+     * @param {object} slider
      */
     function buildArrows(slider) {
         var
@@ -112,18 +112,18 @@
         arrowsLayer.appendChild(prev);
         slider.appendChild(arrowsLayer);
 
-        next.addEventListener('click', function() { 
+        next.addEventListener('click', function() {
             slideTo(slider, 'next')
         });
 
-        prev.addEventListener('click', function() { 
+        prev.addEventListener('click', function() {
             slideTo(slider, 'prev')
         });
     }
 
     /**
      * Build pager
-     * @param {object} slider 
+     * @param {object} slider
      */
     function buildPager(slider) {
         var
@@ -154,7 +154,7 @@
 
     /**
      * Start looping
-     * @param {object} slider 
+     * @param {object} slider
      */
     function startLooping(slider) {
         slider.looping = setInterval(function() {
@@ -163,35 +163,35 @@
     }
 
     /**
-    * Pause looping
-    * @param {object} slider 
-    */
+     * Pause looping
+     * @param {object} slider
+     */
     function pauseLooping(slider) {
         slider.looping = clearInterval(slider.looping)
     }
 
     /**
      * Swiping
-     * @param {object} slider 
+     * @param {object} slider
      */
     function swiping(slider) {
         let touchstartX = 0;
         let touchendX = 0;
-        
+
         slider.addEventListener('touchstart', function(event) {
             touchstartX = event.changedTouches[0].screenX;
         }, false);
-        
+
         slider.addEventListener('touchend', function(event) {
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         }, false);
-        
+
         function handleGesture() {
             if (touchendX < touchstartX) {
                 slideTo(slider, 'next')
             }
-            
+
             if (touchendX > touchstartX) {
                 slideTo(slider, 'prev')
             }
@@ -202,15 +202,14 @@
      * Calculate and make destination slide
      * @param {object} slider
      * @param {number|string} page
-     * @param {bool} pager
      */
     function slideTo(slider, page) {
-        
+
         var
             slides            = slider.querySelector('.slides'),
             sliderNumber      = parseInt(slider.id.replace('slider-', '')),
             activeSlideNumber = parseInt(slides.lastChild.id.replace('slide-' + sliderNumber + '-',''));
-        
+
         /**
          * Calculate destination slide
          */
@@ -239,11 +238,12 @@
                 }
                 break;
         }
-        
+
         /**
          * Make destination slide
          * @param {number} sliderNumber
          * @param {number} page
+         * @param {string} direction
          */
         function makeSlide(sliderNumber, page, direction) {
             var
