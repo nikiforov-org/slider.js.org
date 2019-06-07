@@ -175,8 +175,8 @@
      * @param {object} slider
      */
     function swiping(slider) {
-        let touchstartX = 0;
-        let touchendX = 0;
+        var touchstartX = 0;
+        var touchendX = 0;
 
         slider.addEventListener('touchstart', function(event) {
             touchstartX = event.changedTouches[0].screenX;
