@@ -1,192 +1,200 @@
 (function() {
-    var
-        sliders = document.querySelectorAll('[data-slider]');
-
-    for (var i = 0; i < sliders.length; i++) {
-
-        /**
-         * Default settings
-         */
-        var
-            slider          = sliders[i],
-            loop            = true,
-            sliderInterval  = 5000,
-            sliderSpeed     = 1000,
-            pager           = true,
-            swipe           = true,
-            arrows          = true,
-            pauseOnHover    = true;
-
-        slider.id = 'slider-' + i;
-
-        /**
-         * Get settings if exists
-         */
-
-        if (slider.getAttribute('data-slider')) {
-
-            var settings = JSON.parse((slider.getAttribute('data-slider').replace(/'/g,'"')));
-
-            if (settings.sliderInterval) {
-                sliderInterval = settings.sliderInterval;
-            }
-
-            if (settings.sliderSpeed) {
-                sliderSpeed = settings.sliderSpeed;
-            }
-
-            if (settings.pager === false) {
-                pager = false;
-            }
-
-            if (settings.arrows === false) {
-                arrows = false;
-            }
-
-            if (settings.loop === false) {
-                loop = false;
-                pauseOnHover = false;
-            }
-
-            if (settings.pauseOnHover === false) {
-                pauseOnHover = false;
-            }
-
-            if (settings.swipe === false) {
-                swipe = false;
-            }
-
+    // Default settings
+    var 
+        settings = {
+            pager           : true,
+            arrows          : true,
+            swipe           : true,
+            sliderSpeed     : 1000,
+            loop            : true,
+            pauseOnHover    : true,
+            sliderInterval  : 5000
         }
 
+    // Each slider has attribute 'data-slider'
+    var 
+        sliders = document.querySelectorAll('[data-slider]');
+
+    // Find all sliders and set them id   
+    for (var i = sliders.length; i--;) {
+        // Add id to each slider
+        sliders[i].id = 'slider-' + i;
+        // Init all sliders
+        initSettings(sliders[i]);
+    }
+
+    /**
+     * Init each slider with settings
+     * @param {object} slider 
+     */
+    function initSettings(slider) {
+        // Add default settings
+        slider.settings = settings;
+        // Add custom settings
+        if (slider.getAttribute('data-slider')) {
+            var
+                customSettings = JSON.parse((slider.getAttribute('data-slider').replace(/'/g,'"')));
+
+            Object.keys(customSettings).forEach(function(key) {
+                slider.settings[key] = customSettings[key]
+            })
+        }
+        buildNodes(slider);
+
         /**
-         * Wrap slides
+         * Apply settings
          */
+        if (slider.settings.arrows) {
+            buildArrows(slider)
+        }
+
+        if (slider.settings.pager) {
+            buildPager(slider)
+        }
+
+        if (slider.settings.swipe) {
+            swiping(slider)
+        }
+
+        if (slider.settings.loop) {
+            startLooping(slider)
+            if (slider.settings.pauseOnHover) {
+                slider.addEventListener('mouseover', function() { 
+                    pauseLooping(slider)
+                });
+                slider.addEventListener('mouseout', function() { 
+                    startLooping(slider) 
+                });
+            }
+        }
+    }
+
+    /**
+     * Build main slider nodes
+     * @param {object} slider 
+     */
+    function buildNodes(slider) {
         var
             slides = document.createElement('div');
 
+        slider.slides = slider.children.length; // slider.slides — slides quantity in slider
         slides.className = 'slides';
 
-        slider.appendChild(slides);
-
-        for (var s = 0; slider.children.length > 1; s++) {
+        for (var s = slider.slides; s--;) {
             var
                 slide = document.createElement('div');
 
             slide.className = 'slide';
-            slide.id = 'slide-' + i + '-' + s;
+            slide.id = slider.id.replace('r','') + '-' + s;
 
-            slide.appendChild(slider.children[0]);
+            slide.appendChild(slider.children[s]);
             slides.appendChild(slide);
         }
 
-        slides.appendChild(slides.firstChild); // Make the first slide active
+        slider.appendChild(slides);
+    }
 
-        /**
-         * Add pager
-         */
-        if (pager) {
+    /**
+     * Build arrows
+     * @param {object} slider 
+     */
+    function buildArrows(slider) {
+        var
+            arrowsLayer = document.createElement('div'),
+            next        = document.createElement('div'),
+            prev        = document.createElement('div');
+
+        arrowsLayer.className   = 'arrows';
+        next.className          = 'next';
+        prev.className          = 'prev';
+
+        arrowsLayer.appendChild(next);
+        arrowsLayer.appendChild(prev);
+        slider.appendChild(arrowsLayer);
+
+        next.addEventListener('click', function() { 
+            slideTo(slider, 'next')
+        });
+
+        prev.addEventListener('click', function() { 
+            slideTo(slider, 'prev')
+        });
+    }
+
+    /**
+     * Build pager
+     * @param {object} slider 
+     */
+    function buildPager(slider) {
+        var
+            pagerLayer = document.createElement('div');
+
+        pagerLayer.className = 'pager';
+
+        for (var p = slider.slides; p--;) {
             var
-                pagerLayer = document.createElement('div');
+                page = document.createElement('div');
 
-            pagerLayer.className = 'pager';
+            page.className = 'page';
 
-            for (var p = 0; p < slides.children.length; p++) {
-
-                var
-                    page = document.createElement('div');
-
-                page.className = 'page';
-
-                if (p === 0) {
-                    page.classList.add('active');
-                }
-
-                (function(slider, p, pager) {
-                    page.addEventListener('click', function() {
-                        slideTo(slider, p, pager);
-                    }, false);
-                })(slider, p, pager);
-
-                pagerLayer.appendChild(page);
+            if (p === 0) {
+                page.classList.add('active');
             }
-            slider.appendChild(pagerLayer);
-        }
 
-        /**
-         * Add arrows
-         */
-        if (arrows) {
-            var
-                arrowsLayer = document.createElement('div'),
-                next        = document.createElement('div'),
-                prev        = document.createElement('div');
-
-            arrowsLayer.className = 'arrows';
-            next.className = 'next';
-            prev.className = 'prev';
-
-            arrowsLayer.appendChild(next);
-            arrowsLayer.appendChild(prev);
-            slider.appendChild(arrowsLayer);
-
-            (function(slider) {
-                next.addEventListener('click', function() { slideTo(slider, 'next', pager) });
-                prev.addEventListener('click', function() { slideTo(slider, 'prev', pager) });
-            })(slider);
-        }
-
-        /**
-         * Loop slider
-         */
-        if (loop) {
-            (function(slider) {
-
-                /**
-                 * Make looping
-                 */
-                var loopSlider = setInterval(function() {
-                    slideTo(slider, 'next', pager);
-                }, sliderInterval);
-
-                /**
-                 * Pause loop on hover
-                 */
-                if (pauseOnHover) {
-                    slider.addEventListener('mouseover', function() { clearInterval(loopSlider) });
-                    slider.addEventListener('mouseout', function() { loopSlider = setInterval(function() {
-                        slideTo(slider, 'next', pager);
-                    }, sliderInterval) });
-                }
-            })(slider);
-        }
-
-        /**
-         * Swipe slider
-         */
-        if (swipe) {
-            (function(slider) {
-                var 
-                    firstX, 
-                    lastX;
-
-                slider.addEventListener('touchstart', function(e){
-                    var touch = e.touches[0];
-                    firstX = touch.pageX;
+            (function(p) {
+                page.addEventListener('click', function() {
+                    slideTo(slider, p)
                 });
-                    
-                slider.addEventListener('touchmove', function(e) {
-                    var touch = e.touches[0];
-                    lastX = touch.pageX;
-                });
+            })(p);
+
+            pagerLayer.prepend(page);
+        }
+        slider.appendChild(pagerLayer);
+    }
+
+    /**
+     * Start looping
+     * @param {object} slider 
+     */
+    function startLooping(slider) {
+        slider.looping = setInterval(function() {
+            slideTo(slider, 'next')
+        }, slider.settings.sliderInterval)
+    }
+
+    /**
+    * Pause looping
+    * @param {object} slider 
+    */
+    function pauseLooping(slider) {
+        slider.looping = clearInterval(slider.looping)
+    }
+
+    /**
+     * Swiping
+     * @param {object} slider 
+     */
+    function swiping(slider) {
+        let touchstartX = 0;
+        let touchendX = 0;
         
-                slider.addEventListener('touchend', function() {
-                    if (firstX < lastX - 50) {
-                        slideTo(slider, 'prev', pager);
-                    } else if (firstX > lastX + 50) {
-                        slideTo(slider, 'next', pager);
-                    }
-                });
-            })(slider);
+        slider.addEventListener('touchstart', function(event) {
+            touchstartX = event.changedTouches[0].screenX;
+        }, false);
+        
+        slider.addEventListener('touchend', function(event) {
+            touchendX = event.changedTouches[0].screenX;
+            handleGesture();
+        }, false);
+        
+        function handleGesture() {
+            if (touchendX < touchstartX) {
+                slideTo(slider, 'next')
+            }
+            
+            if (touchendX > touchstartX) {
+                slideTo(slider, 'prev')
+            }
         }
     }
 
@@ -196,19 +204,19 @@
      * @param {number|string} page
      * @param {bool} pager
      */
-    function slideTo(slider, page, pager) {
-
+    function slideTo(slider, page) {
+        
         var
             slides            = slider.querySelector('.slides'),
             sliderNumber      = parseInt(slider.id.replace('slider-', '')),
             activeSlideNumber = parseInt(slides.lastChild.id.replace('slide-' + sliderNumber + '-',''));
-
+        
         /**
          * Calculate destination slide
          */
         switch (page) {
             case 'next':
-                if (activeSlideNumber === slides.children.length - 1) {
+                if (activeSlideNumber === slider.slides - 1) {
                     activeSlideNumber = 0;
                 } else {
                     activeSlideNumber++;
@@ -217,7 +225,7 @@
                 break;
             case 'prev':
                 if (activeSlideNumber === 0) {
-                    activeSlideNumber = slides.children.length - 1;
+                    activeSlideNumber = slider.slides - 1;
                 } else {
                     activeSlideNumber--;
                 }
@@ -229,8 +237,9 @@
                 } else {
                     makeSlide(sliderNumber, page, 'next');
                 }
+                break;
         }
-
+        
         /**
          * Make destination slide
          * @param {number} sliderNumber
@@ -241,17 +250,16 @@
                 activeSlide = document.getElementById('slide-' + sliderNumber + '-' + page);
 
             activeSlide.style.animationName     = direction;
-            activeSlide.style.animationDuration = sliderSpeed/1000 + 's';
+            activeSlide.style.animationDuration = slider.settings.sliderSpeed/1000 + 's';
 
             slides.appendChild(activeSlide);
-            if (pager) {
+            if (slider.settings.pager) {
                 var pagerLayer = slider.querySelector('.pager');
-                for (var i = 0; i < pagerLayer.children.length; i++) {
+                for (var i = pagerLayer.children.length; i--;) {
                     pagerLayer.children[i].classList.remove('active');
                 }
                 pagerLayer.children[page].classList.add('active');
             }
         }
     }
-
 }());
