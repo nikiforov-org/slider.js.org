@@ -179,12 +179,14 @@
         var touchendX = 0;
 
         slider.addEventListener('touchstart', function(event) {
+            pauseLooping(slider);
             touchstartX = event.changedTouches[0].screenX;
         }, false);
 
         slider.addEventListener('touchend', function(event) {
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
+            startLooping(slider);
         }, false);
 
         function handleGesture() {
