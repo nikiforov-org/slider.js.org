@@ -178,13 +178,9 @@
         var touchstartX = 0;
         var touchendX = 0;
 
-        pressStart(slider, function(event) {
+        slider.addEventListener('touchstart', function(event) {
             pauseLooping(slider);
-            if (event.changedTouches) {
-                touchstartX = event.changedTouches[0].screenX;
-            } else {
-                touchstartX = event.screenX;
-            }
+            touchstartX = event.changedTouches[0].screenX;
         }, false);
 
         pressEnd(slider, function(event) {
@@ -272,25 +268,4 @@
             }
         }
     }
-
-    /**
-     * Add mousedown and touchstart listeners on user press something
-     * @param {object} target 
-     * @param {object} pressStartFunction 
-     */
-    function pressStart(target, pressStartFunction) {
-        target.addEventListener('mousedown', pressStartFunction);
-        target.addEventListener('touchstart', pressStartFunction);
-    }
-    
-    /**
-     * Add mouseup and touchend listeners on user unpress something
-     * @param {object} target 
-     * @param {object} pressEndFunction 
-     */
-    function pressEnd(target, pressEndFunction) {
-        target.addEventListener('mouseup', pressEndFunction);
-        target.addEventListener('touchend', pressEndFunction);
-    }
-
 }());
