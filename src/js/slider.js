@@ -179,6 +179,7 @@
         var touchendX = 0;
 
         pressStart(slider, function(event) {
+            pauseLooping(slider);
             if (event.changedTouches) {
                 touchstartX = event.changedTouches[0].screenX;
             } else {
@@ -193,6 +194,7 @@
                 touchendX = event.screenX;
             }
             handleGesture();
+            startLooping(slider);
         }, false);
 
         function handleGesture() {
