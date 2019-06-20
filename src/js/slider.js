@@ -183,12 +183,8 @@
             touchstartX = event.changedTouches[0].screenX;
         }, false);
 
-        pressEnd(slider, function(event) {
-            if (event.changedTouches) {
-                touchendX = event.changedTouches[0].screenX;
-            } else {
-                touchendX = event.screenX;
-            }
+        slider.addEventListener('touchend', function(event) {
+            touchendX = event.changedTouches[0].screenX;
             handleGesture();
             startLooping(slider);
         }, false);
