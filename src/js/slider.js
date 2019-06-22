@@ -32,8 +32,15 @@
         slider.settings = settings;
         // Add custom settings
         if (slider.getAttribute('data-slider')) {
-            var
-                customSettings = JSON.parse((slider.getAttribute('data-slider').replace(/'/g,'"')));
+            
+            try {
+                
+                var customSettings = JSON.parse((slider.getAttribute('data-slider').replace(/'/g,'"')));
+            } catch (e) {
+                console.log ('Parameters error'); 
+                
+                return false;
+            }    
 
             Object.keys(customSettings).forEach(function(key) {
                 slider.settings[key] = customSettings[key]
