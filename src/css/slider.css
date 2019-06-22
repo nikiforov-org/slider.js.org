@@ -12,6 +12,7 @@
     right: 0;
     bottom: 0;
     transition-timing-function: ease-in;
+    height: 650px; /* Или что-то типа того, иначе конструкция схлопывается; высота какая-либо тут обязательна */
 }
 
 [data-slider] .arrows .prev,
