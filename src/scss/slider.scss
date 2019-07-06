@@ -1,0 +1,112 @@
+[data-slider] {
+
+  // Arrows and dots color settings //
+  $navColor: rgb(255,255,255);
+  ////////////////////////////////////
+
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition-timing-function: ease-in;
+  }
+
+  .arrows {
+    .prev,
+    .next {
+      width: 32px;
+      height: 32px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path fill='#{$navColor}' d='M16 0C7.2 0 0 7.2 0 16s7.2 16 16 16 16-7.2 16-16S24.8 0 16 0zm-1.1 24.5c-1-1-1.9-2-2.9-2.9 1.7-1.7 3.4-3.4 5-5.1-1.7-1.7-3.3-3.4-5-5.1 1-1 2-1.9 2.9-2.9 2.6 2.8 5.6 5.3 8.3 8-2.6 2.7-5.6 5.2-8.3 8z'/></svg>");
+      border-radius: 50%;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      margin-top: -16px;
+      opacity: .5;
+      transition: opacity .25s ease;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .prev {
+      transform: rotate(180deg);
+      left: 16px;
+    }
+    .next {
+      right: 16px;
+    }
+  }
+
+  .pager {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 12px;
+    .page {
+      display: inline-block;
+      position: relative;
+      font-size: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: $navColor;
+      margin: 4px 8px;
+      cursor: pointer;
+      opacity: .5;
+      &.active,
+      &:hover {
+        opacity: 1;
+      }
+      &.active {
+        &:before {
+          content: '';
+          width: 14px;
+          height: 14px;
+          position: absolute;
+          border-radius: 50%;
+          border: 1px $navColor solid;
+          top: -4px;
+          left: -4px;
+        }
+      }
+    }
+  }
+}
+
+/**
+Animations
+*/
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+@include keyframes( next ) {
+  0% { left: 100%; }
+  90% { left: 0; }
+}
+
+@include keyframes( prev ) {
+  0% { right: 100%; }
+  90% { right: 0; }
+}
