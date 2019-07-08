@@ -102,11 +102,11 @@ Animations
 }
 
 @include keyframes( next ) {
-  0% { left: 100%; }
-  90% { left: 0; }
+  0%   {left: 100%}
+  100% {left: 0}
 }
 
 @include keyframes( prev ) {
-  0% { right: 100%; }
-  90% { right: 0; }
+  0%   {right: 100%}
+  100% {right: 0}
 }

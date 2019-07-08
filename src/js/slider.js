@@ -41,6 +41,7 @@
                 slider.settings[key] = customSettings[key]
             })
         }
+        
         if (window.matchMedia('(min-width: ' + slider.settings.screenMin + ')').matches && window.matchMedia('(max-width: ' + slider.settings.screenMax + ')').matches) {    
             buildNodes(slider);
         }
