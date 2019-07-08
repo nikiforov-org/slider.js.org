@@ -1,6 +1,6 @@
 {
   "name": "slider.js.org",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Slider.js - the simplest native javascript plugin",
   "main": "/src/js/slider.js",
   "scripts": {

@@ -184,14 +184,18 @@
         var touchendX = 0;
 
         slider.addEventListener('touchstart', function(event) {
-            pauseLooping(slider);
+            if (slider.settings.loop) {
+                pauseLooping(slider);
+            }
             touchstartX = event.changedTouches[0].screenX;
         }, false);
 
         slider.addEventListener('touchend', function(event) {
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
-            startLooping(slider);
+            if (slider.settings.loop) {
+                startLooping(slider);
+            }
         }, false);
 
         function handleGesture() {
