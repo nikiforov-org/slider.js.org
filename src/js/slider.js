@@ -8,7 +8,9 @@
             sliderSpeed     : 1000,
             loop            : true,
             pauseOnHover    : true,
-            sliderInterval  : 5000
+            sliderInterval  : 5000,
+            screenMin       : '0',
+            screenMax       : screen.width + 'px'
         };
 
     // Each slider has attribute 'data-slider'
@@ -39,7 +41,34 @@
                 slider.settings[key] = customSettings[key]
             })
         }
-        buildNodes(slider);
+        if (window.matchMedia('(min-width: ' + slider.settings.screenMin + ')').matches && window.matchMedia('(max-width: ' + slider.settings.screenMax + ')').matches) {    
+            buildNodes(slider);
+        }
+    }
+
+    /**
+     * Build main slider nodes
+     * @param {object} slider
+     */
+    function buildNodes(slider) {
+        var
+            slides = document.createElement('div');
+
+        slider.slides = slider.children.length; // slider.slides — slides quantity in slider
+        slides.className = 'slides';
+
+        for (var s = slider.slides; s--;) {
+            var
+                slide = document.createElement('div');
+
+            slide.className = 'slide';
+            slide.id = slider.id.replace('r','') + '-' + s;
+
+            slide.appendChild(slider.children[s]);
+            slides.appendChild(slide);
+        }
+
+        slider.appendChild(slides);
 
         /**
          * Apply settings
@@ -67,31 +96,6 @@
                 });
             }
         }
-    }
-
-    /**
-     * Build main slider nodes
-     * @param {object} slider
-     */
-    function buildNodes(slider) {
-        var
-            slides = document.createElement('div');
-
-        slider.slides = slider.children.length; // slider.slides — slides quantity in slider
-        slides.className = 'slides';
-
-        for (var s = slider.slides; s--;) {
-            var
-                slide = document.createElement('div');
-
-            slide.className = 'slide';
-            slide.id = slider.id.replace('r','') + '-' + s;
-
-            slide.appendChild(slider.children[s]);
-            slides.appendChild(slide);
-        }
-
-        slider.appendChild(slides);
     }
 
     /**
