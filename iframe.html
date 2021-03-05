@@ -6,6 +6,10 @@
   body {
     background-color: #0f0;
   }
+  div {
+    width: 100vw;
+    height: 100vh;
+  }
 </style>
 <script>
 function requestFS(el){
@@ -13,6 +17,8 @@ function requestFS(el){
 }
 </script>
 <body>
- <button onclick="requestFS(document.body)">document.body</button>
- <button onclick="requestFS(parent.document.body)">parent.document.body</button>
+ <div>
+  <button onclick="requestFS(document.body)">document.body</button>
+  <button onclick="requestFS(parent.document.body)">parent.document.body</button>
+ </div>
 </body>
