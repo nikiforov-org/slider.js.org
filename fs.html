@@ -1,1 +1,17 @@
-<iframe src="iframe.html" allowfullscreen></iframe>
+<iframe src="iframe.html" id="iframe" allowfullscreen></iframe>
+<script>
+  const
+    iframe = document.getElementById(`iframe`);
+  
+  document.addEventListener('onfullscreenchange', () => {
+    if (document.fullscreenElement) {
+      iframe.style.width = `100vw`;
+      iframe.style.height = `100vh`;
+    } else {
+      iframe.hasAttribute('style')
+        ? iframe.removeAttribute('style')
+        : false;
+    }
+      
+  })
+</script>
