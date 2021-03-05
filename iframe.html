@@ -8,8 +8,11 @@
   }
 </style>
 <script>
-function requestFS(){
-  document.body.requestFullscreen();
+function requestFS(el){
+  el.requestFullscreen();
 }
 </script>
-<button onclick="requestFS()">click</button>
+<body>
+ <button onclick="requestFS(document.body)">document.body</button>
+ <button onclick="requestFS(parent.document.body)">parent.document.body</button>
+</body>
