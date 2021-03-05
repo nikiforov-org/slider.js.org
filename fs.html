@@ -7,6 +7,7 @@
     if (document.fullscreenElement) {
       iframe.style.width = `100vw`;
       iframe.style.height = `100vh`;
+      alert(document.fullscreenElement);
     } else {
       iframe.hasAttribute('style')
         ? iframe.removeAttribute('style')
